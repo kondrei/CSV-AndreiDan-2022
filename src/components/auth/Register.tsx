@@ -3,12 +3,14 @@ import { AuthModals } from "./types";
 import { UserTypes } from "./types";
 import './auth-styles.css';
 import { useUserAuth } from "../../contexts/AuthContext";
+import { useSnackbar } from 'notistack';
 
 const Register: FC<{ setModalOpen: Dispatch<SetStateAction<AuthModals>>; }> = ({
     setModalOpen,
 }) => {
 
     const { signUp } = useUserAuth();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const onSubmit = async (e: SyntheticEvent) => {
         try {
@@ -25,14 +27,14 @@ const Register: FC<{ setModalOpen: Dispatch<SetStateAction<AuthModals>>; }> = ({
             await signUp(email,password,phoneNumber,name,userType);
             // Custom validation
             if (password.length < 5) {
-                alert('Password is too short');
+                enqueueSnackbar('Password is too short');
                 return;
             }
             setModalOpen(AuthModals.CLOSED);
-            alert('Registered succesfully');
+            enqueueSnackbar('Registered succesfully');
         } catch (err) {
             console.error(err);
-            alert(err);
+            enqueueSnackbar(err.message);
         }
     };
     return (

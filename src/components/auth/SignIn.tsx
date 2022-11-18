@@ -6,6 +6,7 @@ import useUserDetails from "../../hooks/UserDetailsHook";
 import { whereQuery } from "../../configs/firebase/actions";
 import { useNavigate } from "react-router-dom";
 import { PagesPaths } from "../../pages/types";
+import { useSnackbar } from 'notistack';
 
 const SignIn: FC<{ setModalOpen: Dispatch<SetStateAction<AuthModals>>; }> = ({
     setModalOpen,
@@ -14,6 +15,8 @@ const SignIn: FC<{ setModalOpen: Dispatch<SetStateAction<AuthModals>>; }> = ({
     const { logIn } = useUserAuth();
     const { storeCurrentUserDetails } = useUserDetails();
     const navigate = useNavigate();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
 
     const onSubmit = async (e: SyntheticEvent) => {
         try {
@@ -34,7 +37,7 @@ const SignIn: FC<{ setModalOpen: Dispatch<SetStateAction<AuthModals>>; }> = ({
             navigate(PagesPaths.DASHBOARD);
         } catch (err) {
             console.error(err);
-            alert(err);
+            enqueueSnackbar(err.message);
         }
 
     };
