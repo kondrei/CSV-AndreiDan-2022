@@ -5,11 +5,13 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import './App.css';
 import { UserAuthContextProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import { SnackbarProvider } from 'notistack';
 
 function App() {
 
   return (
     <>
+    <SnackbarProvider maxSnack={3}>
       <UserAuthContextProvider>
         <BrowserRouter>
             <Routes>
@@ -23,6 +25,7 @@ function App() {
             </Routes>
           </BrowserRouter>
       </UserAuthContextProvider>
+     </SnackbarProvider>
     </>
   );
 }
